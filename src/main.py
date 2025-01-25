@@ -8,7 +8,8 @@ def draw_board(screen):
 
 
 
-def main():
+'''
+def main():    
     try:
         pygame.init()
         # You can draw the mole with this snippet:
@@ -44,3 +45,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''
