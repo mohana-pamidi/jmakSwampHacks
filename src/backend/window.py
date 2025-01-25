@@ -1,15 +1,16 @@
 import pygame, sys
 from pygame.locals import *
-import duck
+#import duck
 
-from src.backend.duck import screen
+
 
 
 class Window:
     def __init__(self):
         self._running = True
         self.start_screen= True
-        self._display_surf = None
+        self._display_surf =None
+        self.game_running=False
         self.size = self.width, self.height = 900, 700
  
     def on_init(self):
@@ -21,18 +22,29 @@ class Window:
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = event.pos
+            if 275 <= x <= 600 and 425 <= y <= 625:
+                self.start_screen = False
+                self.game_running = True
 
     def on_loop(self):
-        duck.main()
+        #duck.main()
+        if self.start_screen:
+            self.on_render()
+        if self.game_running:
+            game_screen_image = pygame.image.load("../images/game_background.png")
+            self._display_surf.blit(game_screen_image, game_screen_image.get_rect(topleft=(0, 0)))
+            pygame.display.flip()
+
     
     def on_render(self):
-
-        self._display_surf.fill((125, 199, 242))  # Background color
-        header_image = pygame.Surface((200, 200))  # Create a dummy surface
-        header_image.fill((255, 0, 0))  # Fill it with red
-        header_rect = header_image.get_rect(center=(self.width / 2, self.height / 3))
-        self._display_surf.blit(header_image, header_rect)
+        start_screen_image = pygame.image.load("../images/Start screen.png")
+        self._display_surf.blit(start_screen_image, start_screen_image.get_rect(topleft=(0, 0)))
+        start_button = pygame.image.load("../images/Start.png")
+        self._display_surf.blit(start_button, start_button.get_rect(center=(450, 525)))
         pygame.display.flip()
+
 
         '''
         self._display_surf.fill((125, 199, 242))
@@ -50,9 +62,6 @@ class Window:
         while( self._running ):
             for event in pygame.event.get():
                 self.on_event(event)
-                if self.start_screen():
-                    self.on_render()
-                if not self.start_screen:
-                    self.on_loop()
+            self.on_loop()
 
         self.on_cleanup()
