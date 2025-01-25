@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
  
-class App:
+class Window:
     def __init__(self):
         self._running = True
         self._display_surf = None
@@ -15,10 +15,12 @@ class App:
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
+            
     def on_loop(self):
         pass
     def on_render(self):
-        pass
+        self._display_surf.fill((125, 199, 242))
+       
     def on_cleanup(self):
         pygame.quit()
  

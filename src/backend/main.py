@@ -3,5 +3,5 @@ from window import *
 
  
 if __name__ == "__main__" :
-    theApp = App()
-    theApp.on_execute()
+    theWindow = Window()
+    theWindow.on_execute()
