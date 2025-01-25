@@ -6,7 +6,9 @@ def draw_board(screen):
     for i in range(1,20):
         pygame.draw.line(screen,(255,255,255), (i*32,0), (i*32,512))
 
-
+pygame.init()
+screen =pygame.display.set_mode((1900,1000))
+screen.fill("light blue")
 
 '''
 def main():    
