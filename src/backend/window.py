@@ -19,7 +19,7 @@ class Window:
 
     def on_loop(self):
         pass
-    
+
     def on_render(self):
         self._display_surf.fill((125, 199, 242))
         pygame.display.update()
