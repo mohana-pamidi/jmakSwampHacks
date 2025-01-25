@@ -1,11 +1,6 @@
 
 from window import *
-# PLEASE UNCOMMET THIS EBFORE YOU COMMIT>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-"""
-    from API import *
-
-"""
-
+from API import *
 from bug import *
 from duck import *
 import numpy as np
@@ -16,8 +11,7 @@ from constants import *
 class Toolbox:
     def __init__(self):
         self.myDuck = Duck()
-        #PLEASE UNCOMMET THIS EBFORE YOU COMMIT>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        #self.myAPI = API()
+        self.myAPI = API()
         self.arrOfBugs = []
         self.keys = []
         self.input_active = False
@@ -30,7 +24,9 @@ class Toolbox:
             pointX = random.uniform(0, SCREEN_WIDTH)
             pointY = random.uniform(0, SCREEN_HEIGHT)
             bug = Bug(((pointX, pointY)))
+            print(bug.word_duck_is_trying_to_guess)
             self.arrOfBugs.append(bug)
+            
 
 
             

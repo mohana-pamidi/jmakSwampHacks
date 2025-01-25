@@ -1,16 +1,18 @@
 import pygame, sys
 from pygame.locals import *
 from toolbox import *
+from gameState import *
 
 
 
 class Window:
-    def __init__(self, toolbox):
+    def __init__(self, toolbox, gameState):
         pygame.init()
         self._running = True
-        self.start_screen= True
-        self._display_surf =None
-        self.game_running=False
+        self.start_screen = True
+        self._display_surf = None
+        self.game_running = False
+        self.gameState = gameState
         self.size = self.width, self.height = 900, 700
         self.toolbox = toolbox
         self.font = pygame.font.Font(None, 36)
@@ -42,7 +44,7 @@ class Window:
 
 
         if event.type == pygame.KEYDOWN:
-
+            self.gameState.__set_state__(State.PROMPTING)
             if self.toolbox.input_active:
 
                 print("can type input_active is not false")
@@ -65,16 +67,19 @@ class Window:
 
     def on_loop(self):
 
-        if self.start_screen:
+        state = self.gameState.__get_state__()
+
+        if state == State.WELCOME and self.start_screen:
             self.on_render()
-        if self.game_running:
+
+        if state == State.PLAYING and self.game_running:
             # Welcome Screen Graphics
-            game_screen_image = pygame.image.load("../images/game_background.png")
+            game_screen_image = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/game_background.png")
             self._display_surf.blit(game_screen_image, game_screen_image.get_rect(topleft=(0, 0)))
-            info_button=pygame.image.load("../images/info_button.png")
+            info_button=pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/info_button.png")
             self._display_surf.blit(info_button, info_button.get_rect(topright=(850,0)))
             if self.info_on_screen:
-                info_tab = pygame.image.load("../images/info_tab.png")
+                info_tab = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/info_tab.png")
                 self._display_surf.blit(info_tab, info_tab.get_rect(topright=(750, 100)))
 
             # Duck Playing Graphics
@@ -97,12 +102,13 @@ class Window:
             pygame.display.flip()
 
     def on_render(self):
-        start_screen_image = pygame.image.load("../images/Start screen.png")
+        start_screen_image = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/Start screen.png")
         self._display_surf.blit(start_screen_image, start_screen_image.get_rect(topleft=(0, 0)))
-        start_button = pygame.image.load("../images/Start.png")
+        start_button = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/Start.png")
         self._display_surf.blit(start_button, start_button.get_rect(center=(450, 525)))
         pygame.display.flip()
 
+        self.gameState. __set_state__(State.PLAYING)
 
         '''
         self._display_surf.fill((125, 199, 242))

@@ -2,10 +2,13 @@
 import pygame, sys
 from toolbox import *
 from window import *
+from gameState import *
 
 if __name__ == "__main__":
     myToolBox = Toolbox()
-    theWindow = Window(myToolBox)
+    myGameState = GameState(myToolBox)
+    theWindow = Window(myToolBox, myGameState)
     theWindow.on_execute()
+
 
     
