@@ -20,7 +20,7 @@ while True:
             sys.exit()
         if start_screen:
             screen.fill(COLOR)
-            screen.blit(logo, logo.get_rect(topleft=(200, 200)))
+            screen.blit(logo, logo.get_rect(topleft=(200, 180)))
             pygame.display.flip()
 
 
