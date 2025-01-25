@@ -35,7 +35,7 @@ while running:
     screen.blit(img, (0,0))
 
     # Update the display
-    pygame.display.flip()
+    pygame.display.update()
 
     # Cap the frame rate to 60 frames per second
     clock.tick(60)
