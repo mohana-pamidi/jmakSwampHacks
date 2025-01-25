@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Portal</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Press Start 2P', cursive;
+            background-color: #1a1a2e;
+            color: #e6e6e6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #16213e;
+            color: #e6e6e6;
+            text-align: center;
+            padding: 1rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #0f3460;
+            padding: 0.5rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        nav a {
+            color: #e6e6e6;
+            text-decoration: none;
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            border: 2px solid #e6e6e6;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #e6e6e6;
+            color: #0f3460;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            padding: 1rem;
+        }
+
+        .game-container {
+            width: 900px;
+            height: 700px;
+            background-color: #0f3460;
+            border: 5px solid #e6e6e6;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #16213e;
+            color: #e6e6e6;
+            padding: 1rem 0;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap');
+    </style>
+</head>
+<body>
+    <header>
+        <h1> Duck AI Venture </h1>
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#games">Games</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <main>
+        <div class="game-container">
+            <embed src="path-to-python-game-executable" type="application/x-python-code" width="900" height="700">
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Game Portal. All rights reserved. 🕹️</p>
+    </footer>
+</body>
+</html>
