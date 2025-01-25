@@ -11,7 +11,7 @@ class State(Enum):
 
 class GameState:
     # Constructor
-    def __init__(self, state=None):
+    def __init__(self):
         # Attributes
         self.num_bugs = 0       # the score of the game
         self.welcome_frame = ""
