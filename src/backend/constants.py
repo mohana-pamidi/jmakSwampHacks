@@ -15,6 +15,6 @@ BUG_POSITION = (200, 400)
 BUG_RADIUS = 50
 API_KEY = "AIzaSyA6Z_GZ9sXgua6jcZm9JewLY8R-Io-Z1Tc"
 
-FONT = pygame.font.Font("..frontend/PressStart2P.ttf", 16)
+#FONT = pygame.font.Font("..frontend/PressStart2P.ttf", 16)
 
 

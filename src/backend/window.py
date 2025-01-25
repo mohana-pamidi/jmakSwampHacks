@@ -65,27 +65,10 @@ class Window:
 
     def on_loop(self):
 
-        self.toolbox.keys = pygame.key.get_pressed()
-
-        if not self.toolbox.input_active:
-            self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y = self.toolbox.myDuck.move_duck(self.toolbox.keys, self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y)
-
-        # Check to see if duck is near bug
-        if self.toolbox.myDuck.is_near_bug(self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y):
-            print("reset")
-            self.toolbox.input_active = True
-
-        self._display_surf.blit(self.toolbox.myDuck.duck_img, (self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y))
-
-        self.toolbox.clock.tick(60)
-
-
-
-
-        #duck.main()
         if self.start_screen:
             self.on_render()
         if self.game_running:
+            # Welcome Screen Graphics
             game_screen_image = pygame.image.load("../images/game_background.png")
             self._display_surf.blit(game_screen_image, game_screen_image.get_rect(topleft=(0, 0)))
             info_button=pygame.image.load("../images/info_button.png")
@@ -93,8 +76,25 @@ class Window:
             if self.info_on_screen:
                 info_tab = pygame.image.load("../images/info_tab.png")
                 self._display_surf.blit(info_tab, info_tab.get_rect(topright=(750, 100)))
-            pygame.display.flip()
 
+            # Duck Playing Graphics
+            self.toolbox.keys = pygame.key.get_pressed()
+
+            if not self.toolbox.input_active:
+                self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y = self.toolbox.myDuck.move_duck(
+                    self.toolbox.keys, self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y)
+
+            # Check to see if duck is near bug
+            if self.toolbox.myDuck.is_near_bug(self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y):
+                print("reset")
+                self.toolbox.input_active = True
+
+            self._display_surf.blit(self.toolbox.myDuck.duck_img,
+                                    (self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y))
+
+            self.toolbox.clock.tick(60)
+
+            pygame.display.flip()
 
     def on_render(self):
         start_screen_image = pygame.image.load("../images/Start screen.png")

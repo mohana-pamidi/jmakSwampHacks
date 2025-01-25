@@ -14,7 +14,7 @@ class Duck:
 
         self.duck_img = pygame.transform.scale(self.duck_img, (CHAR_SIZE, CHAR_SIZE))
 
-    def move_duck(keys, x, y):
+    def move_duck(self, keys, x, y):
 
         if keys[K_UP] or keys[K_w]:
             y -= MOVE_SPEED
@@ -32,7 +32,7 @@ class Duck:
         return x, y
 
 
-    def is_near_bug(duck_x, duck_y):
+    def is_near_bug(self, duck_x, duck_y):
         bug_x, bug_y = BUG_POSITION
         distance = ((duck_x - bug_x) ** 2 + (duck_y - bug_y) ** 2) ** 0.5
         return distance <= BUG_RADIUS + CHAR_SIZE // 2
