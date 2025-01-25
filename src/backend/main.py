@@ -1,9 +1,9 @@
-
 from toolbox import *
+from window import *
 
 if __name__ == "__main__":
-    theWindow = Window()
     myToolBox = Toolbox()
+    theWindow = Window(myToolBox)
     theWindow.on_execute()
 
     # myAPI = API()
