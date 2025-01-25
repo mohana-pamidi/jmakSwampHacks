@@ -11,7 +11,7 @@ class State(Enum):
 
 class GameState:
     # Constructor
-    def __init__(self, state=None):
+    def __init__(self):
         # Attributes
         self.num_bugs = 0       # the score of the game
         self.welcome_frame = ""
@@ -27,7 +27,7 @@ class GameState:
         self.state = state
 
     # get_num_bugs returns the number bugs the user has collected
-    def get_numBugs(self):
+    def get_num_bugs(self):
         return self.num_bugs
 
     # set_num_bugs updates the current number of bugs
