@@ -40,11 +40,8 @@ class Window:
                 elif self.info_on_screen:
                     self.info_on_screen=False
 
-
-
-
         if event.type == pygame.KEYDOWN:
-            self.gameState.__set_state__(State.PROMPTING)
+            
             if self.toolbox.input_active:
 
                 print("can type input_active is not false")
@@ -71,7 +68,9 @@ class Window:
 
         if state == State.WELCOME and self.start_screen:
             self.on_render()
+           # self.gameState. __set_state__(State.PLAYING)
 
+        print("State: " , state)
         if state == State.PLAYING and self.game_running:
             # Welcome Screen Graphics
             game_screen_image = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/game_background.png")
@@ -91,7 +90,8 @@ class Window:
 
             # Check to see if duck is near bug
             if self.toolbox.myDuck.is_near_bug(self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y):
-                print("reset")
+                
+                self.gameState.__set_state__(State.PROMPTING)
                 self.toolbox.input_active = True
 
             self._display_surf.blit(self.toolbox.myDuck.duck_img,
