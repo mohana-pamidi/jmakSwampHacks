@@ -27,7 +27,7 @@ class GameState:
         self.state = state
 
     # get_num_bugs returns the number bugs the user has collected
-    def get_numBugs(self):
+    def get_num_bugs(self):
         return self.num_bugs
 
     # set_num_bugs updates the current number of bugs
