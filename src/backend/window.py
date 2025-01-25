@@ -37,7 +37,6 @@ class Window:
             self._display_surf.blit(game_screen_image, game_screen_image.get_rect(topleft=(0, 0)))
             pygame.display.flip()
 
-    
     def on_render(self):
         start_screen_image = pygame.image.load("../images/Start screen.png")
         self._display_surf.blit(start_screen_image, start_screen_image.get_rect(topleft=(0, 0)))
