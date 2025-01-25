@@ -35,6 +35,7 @@ class Window:
         if self.game_running:
             game_screen_image = pygame.image.load("../images/game_background.png")
             self._display_surf.blit(game_screen_image, game_screen_image.get_rect(topleft=(0, 0)))
+
             pygame.display.flip()
 
     def on_render(self):
