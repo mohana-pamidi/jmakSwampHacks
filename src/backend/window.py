@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+import duck
  
 class Window:
     def __init__(self):
@@ -18,7 +19,7 @@ class Window:
             self._running = False
 
     def on_loop(self):
-        pass
+        duck.main()
     
     def on_render(self):
         self._display_surf.fill((125, 199, 242))
