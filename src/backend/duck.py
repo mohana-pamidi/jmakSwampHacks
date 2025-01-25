@@ -20,7 +20,6 @@ clock = pygame.time.Clock()
 # Main game loop
 running = True
 
-//img = pygame
 while running:
     # Handle events
     for event in pygame.event.get():
@@ -29,6 +28,11 @@ while running:
 
     # Fill the screen with a color (e.g., black)
     screen.fill((125, 199, 242))
+
+    
+    img = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/duckie.png")
+
+    screen.blit(img, (0,0))
 
     # Update the display
     pygame.display.flip()
