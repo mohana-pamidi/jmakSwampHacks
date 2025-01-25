@@ -17,12 +17,10 @@ class API:
     #returns integers between 0 and 10. 
     def getRating(self, feedback):
         index = self.response.text.find("/10")
-        #self.response.text.split()
-        pass
-        #must parse feedback to get rating
-
-
-        
-
-
-
+        if index != -1:
+            words = feedback.split()
+        for word in words:
+            if "/10" in word:
+                rating = word.split("/")[0]
+                return int(rating)
+        return None    
