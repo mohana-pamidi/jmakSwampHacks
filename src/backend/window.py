@@ -9,18 +9,21 @@ class Window:
  
     def on_init(self):
         pygame.init()
-        self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
+        self._display_surf = pygame.display.set_mode(self.size)
+        pygame.display.set_caption("DuckieAIventure")
         self._running = True
  
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
-            
+
     def on_loop(self):
         pass
+    
     def on_render(self):
         self._display_surf.fill((125, 199, 242))
-       
+        pygame.display.update()
+        
     def on_cleanup(self):
         pygame.quit()
  
