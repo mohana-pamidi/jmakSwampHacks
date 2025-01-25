@@ -7,37 +7,43 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Press Start 2P', cursive;
+            background-color: #1a1a2e;
+            color: #e6e6e6;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
         header {
-            background-color: #333;
-            color: white;
-            padding: 1rem 0;
+            background-color: #16213e;
+            color: #e6e6e6;
             text-align: center;
+            padding: 1rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         nav {
             display: flex;
             justify-content: center;
-            background-color: #444;
+            background-color: #7c9ae0;
             padding: 0.5rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         nav a {
-            color: white;
+            color: #e6e6e6;
             text-decoration: none;
             margin: 0 1rem;
             padding: 0.5rem 1rem;
-            border-radius: 5px;
+            border: 2px solid #e6e6e6;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         nav a:hover {
-            background-color: #555;
+            background-color: #e6e6e6;
+            color: #0f3460;
         }
 
         main {
@@ -51,8 +57,9 @@
         .game-container {
             width: 900px;
             height: 700px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #0f3460;
+            border: 5px solid #e6e6e6;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -62,15 +69,18 @@
 
         footer {
             text-align: center;
-            background-color: #333;
-            color: white;
+            background-color: #16213e;
+            color: #e6e6e6;
             padding: 1rem 0;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
         }
+
+        @import url('https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap');
     </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to the Game Portal</h1>
+        <h1> Duck AI Venture </h1>
     </header>
 
     <nav>
@@ -87,7 +97,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Game Portal. All rights reserved.</p>
+        <p>&copy; 2025 Game Portal. All rights reserved. 🕹️</p>
     </footer>
 </body>
 </html>
