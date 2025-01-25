@@ -12,6 +12,7 @@ class Window:
         self._display_surf =None
         self.game_running=False
         self.size = self.width, self.height = 900, 700
+        self.info_on_screen=False
  
     def on_init(self):
         pygame.init()
@@ -24,9 +25,17 @@ class Window:
             self._running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
-            if 275 <= x <= 600 and 425 <= y <= 625:
+            if 275 <= x <= 600 and 425 <= y <= 625 and self.start_screen:
                 self.start_screen = False
                 self.game_running = True
+            if 750<=x<=850 and 0<=y<=100 and self.game_running:
+                if self.info_on_screen==False:
+                    self.info_on_screen=True
+                elif self.info_on_screen:
+                    self.info_on_screen=False
+
+
+
 
     def on_loop(self):
         #duck.main()
@@ -35,7 +44,11 @@ class Window:
         if self.game_running:
             game_screen_image = pygame.image.load("../images/game_background.png")
             self._display_surf.blit(game_screen_image, game_screen_image.get_rect(topleft=(0, 0)))
-
+            info_button=pygame.image.load("../images/info_button.png")
+            self._display_surf.blit(info_button, info_button.get_rect(topright=(850,0)))
+            if self.info_on_screen:
+                info_tab = pygame.image.load("../images/info_tab.png")
+                self._display_surf.blit(info_tab, info_tab.get_rect(topright=(750, 100)))
             pygame.display.flip()
 
     def on_render(self):
