@@ -51,12 +51,14 @@ clock = pygame.time.Clock()
 
 # Main game loop
 running = True
+img = pygame.image.load("../images/duckie.png")
 
 while running:
     # Handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
     # Get pressed keys
     keys = pygame.key.get_pressed()
 
@@ -67,9 +69,9 @@ while running:
     screen.fill((125, 199, 242))
 
     
-    img = pygame.image.load("../images/duckie.png")
+    img = pygame.transform.scale(img, (CHAR_SIZE, CHAR_SIZE))
 
-    screen.blit(img, (0,0))
+    screen.blit(img, (char_x, char_y))
 
     # Update the display
     pygame.display.update()
