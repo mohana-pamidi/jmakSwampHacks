@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 import random
 def draw_board(screen):
     for i in range(1,16):
@@ -6,9 +6,22 @@ def draw_board(screen):
     for i in range(1,20):
         pygame.draw.line(screen,(255,255,255), (i*32,0), (i*32,512))
 
+pygame.init()
+screen =pygame.display.set_mode((700,700))
+start_screen=True
+game_over=False
+while True:
+    for event in pygame.event.get():
+        if event.type==pygame.QUIT:
+            sys.exit()
+        if start_screen:
+            screen.fill("light blue")
 
 
-def main():
+
+
+'''
+def main():    
     try:
         pygame.init()
         # You can draw the mole with this snippet:
@@ -44,3 +57,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''
