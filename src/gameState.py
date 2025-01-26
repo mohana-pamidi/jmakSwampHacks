@@ -8,8 +8,9 @@ from constants import *
 class State(Enum):
     WELCOME = 1
     PROMPTING = 2
-    PLAYING = 3
-    WIN = 4
+    GETTING_FEEDBACK = 3
+    PLAYING = 4
+    WIN = 5
 
 class GameState:
     # Constructor
@@ -36,9 +37,9 @@ class GameState:
 
     # set_num_bugs updates the current number of bugs
     def set_num_bugs(self, num_bugs):
-        self.num_bugs = num_bugs_left
+        self.num_bugs_left = num_bugs
     
-    def get_curr_bug_duck_on():
+    def get_curr_bug_duck_on(self):
         return self.curr_bug_duck_on
     
     def set_curr_bug_duck_on(self, bug):

@@ -27,9 +27,14 @@ class Window:
         self._running = True
  
     def on_event(self, event):
+        # get current state
+        state = self.gameState.__get_state__()
 
+        # Event: user exits window
         if event.type == pygame.QUIT:
             self._running = False
+        # Event: mouse is clicked
+        # Currently checking: if info button is clicked
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
             if 275 <= x <= 600 and 350 <= y <= 449 and self.start_screen:
@@ -51,19 +56,35 @@ class Window:
                 elif self.instruc_on_screen:
                     self.instruc_on_screen = False
 
+                    self.info_on_screen=False
+        # Event: key is pressed
+        # Currently checking: if game state is in prompting to collect user input
         if event.type == pygame.KEYDOWN:
             
             if self.toolbox.input_active:
-
-                print("can type input_active is not false")
+                print("can type input_active is not false") # delete this later
+                # print("bug word: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess) # delete this later
+                # print("location of bug at index 0", self.toolbox.arrOfBugs[0].location) # delete this later
                 if event.key == pygame.K_RETURN:
                     # Send the prompt to Google Gemini/ make API call
                     response =  self.user_text
 
                     if response == "goodbye":
                         self.toolbox.input_active = False
-                        # get rid of bug
+                        self.gameState.__set_state__(State.PLAYING) # update game state
+                        # get rid of bug / pop first element from toolbox's bug array
+                        self.toolbox.arrOfBugs[0].location = (-1, -1)
+                        self.toolbox.arrOfBugs.pop(0)
+                        print("BUG POPPED") # delete this later
+                        # print("bug word: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess) # delete this later
+                        # check if the bug array is empty
+                        if not self.toolbox.arrOfBugs: # if empty, then set game state to win
+                            self.gameState. __set_state__(State.WIN)
+                            print("WIN!!!!!!!!!!!!!!")
 
+
+                    self.toolbox.myAPI.makeAPICall(("What is your rating ( on a scale of 1-10 ) for this prompt if I was trying to get you to say: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess, ". The prompt is: ", response, ". Format response with 'rating /10 : explanation'"))
+                    self.gameState.__set_state__(State.GETTING_FEEDBACK)
                     self.user_text = ""  # Reset input
 
 
@@ -81,7 +102,7 @@ class Window:
             self.on_render()
            # self.gameState. __set_state__(State.PLAYING)
 
-        print("State: " , state)
+        # print("State: " , state) # CAN UNCOMMENT THIS LATER
         if state == State.PLAYING and self.game_running:
             # Welcome Screen Graphics
             game_screen_image = pygame.image.load("images/game_background.png")
@@ -97,7 +118,9 @@ class Window:
                     self.toolbox.keys, self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y)
 
             # Check to see if duck is near bug
-            if self.toolbox.myDuck.is_near_bug(self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y):
+            if self.toolbox.myDuck.is_near_bug(self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y,
+                                               self.toolbox.arrOfBugs[0].location[0],
+                                               self.toolbox.arrOfBugs[0].location[1]):
 
                 self.gameState.__set_state__(State.PROMPTING)
                 self.toolbox.input_active = True
@@ -118,13 +141,18 @@ class Window:
                 instruc_tab = pygame.image.load("images/instruc_tab.png")
                 self._display_surf.blit(instruc_tab, instruc_tab.get_rect(topleft=(75, 100)))
         if state == State.PROMPTING and self.game_running:
-            self.draw_text_box()
+            # display win screen make sure win screen has restart button
+            # once restart button is clicked, send user back to welcome
+            self.draw_text_box(self.user_text)
+
+        if state == State.WIN and self.game_running:
+            self.game_running = False
+
+        if state == State.GETTING_FEEDBACK and self.game_running:
+            #print(self.toolbox.myAPI.getFeedback())
+            self.draw_text_box(self.toolbox.myAPI.getRating((self.toolbox.myAPI.getFeedback())))
 
         self.toolbox.clock.tick(60)
-
-
-
-
 
         pygame.display.flip()
 
@@ -150,10 +178,10 @@ class Window:
     def on_cleanup(self):
         pygame.quit()
 
-    def draw_text_box(self):
+    def draw_text_box(self, text):
         pygame.draw.rect(self._display_surf, (255, 255, 255), (200, 500, 500, 50))
         pygame.draw.rect(self._display_surf, (0, 0, 0), (200, 500, 500, 50), 2)
-        text_surface = self.font.render( self.user_text, True, (0, 0, 0))
+        text_surface = self.font.render( text, True, (0, 0, 0))
         self._display_surf.blit(text_surface, (210, 510))
 
     def on_execute(self):
@@ -167,3 +195,11 @@ class Window:
             self.on_loop()
 
         self.on_cleanup()
+
+    def exit_render(self):
+        end_screen_image = pygame.image.load("../images/win_screen.png")
+        self._display_surf.blit(end_screen_image, end_screen_image.get_rect(topleft=(0, 0)))
+        restart_button = pygame.image.load("../images/restart.png")
+        self._display_surf.blit(restart_button, restart_button.get_rect(topleft=(100,200)))
+        exit_button = pygame.image.load("../images/exit_button.png")
+        self._display_surf.blit(exit_button, exit_button.get_rect(topleft=(400,200)))

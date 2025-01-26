@@ -1,6 +1,6 @@
 
 from window import *
-from API import *
+# from API import *
 from bug import *
 from duck import *
 import numpy as np
@@ -11,7 +11,7 @@ from constants import *
 class Toolbox:
     def __init__(self):
         self.myDuck = Duck()
-        self.myAPI = API()
+        # self.myAPI = API()
         self.arrOfBugs = []
         self.keys = []
         self.input_active = False
@@ -20,7 +20,7 @@ class Toolbox:
         
     
     def randomizeInitBugs(self):
-        for i in range(10):
+        for i in range(NUM_OF_BUGS):
             pointX = random.uniform(0, SCREEN_WIDTH)
             pointY = random.uniform(0, SCREEN_HEIGHT)
             bug = Bug(((pointX, pointY)))

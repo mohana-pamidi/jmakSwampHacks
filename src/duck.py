@@ -7,7 +7,7 @@ import toolbox
 
 class Duck:
     def __init__(self):
-        self.imagePath = ("./images/Duckie.png")
+        self.imagePath = "../images/Duckie.png"
         # Constants for screen dimensions
         self.char_x, self.char_y = SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2
         self.duck_img = pygame.image.load(self.imagePath)
@@ -32,8 +32,7 @@ class Duck:
         return x, y
 
 
-    def is_near_bug(self, duck_x, duck_y):
-        bug_x, bug_y = BUG_POSITION
+    def is_near_bug(self, duck_x, duck_y, bug_x, bug_y):
         distance = ((duck_x - bug_x) ** 2 + (duck_y - bug_y) ** 2) ** 0.5
         return distance <= BUG_RADIUS + CHAR_SIZE // 2
 

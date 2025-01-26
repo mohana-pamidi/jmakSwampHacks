@@ -5,7 +5,7 @@ import random
 class Bug:
     def __init__(self, location): 
         self.location = location
-        self.imagePath =  "./images/buggie.png"
+        self.imagePath =  "../images/buggie.png"
         self.bug_img = pygame.image.load(self.imagePath)
         self.bug_img = pygame.transform.scale(self.bug_img, (60, 60))
         self.word_duck_is_trying_to_guess = WORDS[self.get_random_word()]
