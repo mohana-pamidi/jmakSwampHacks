@@ -7,7 +7,7 @@ import toolbox
 
 class Duck:
     def __init__(self):
-        self.imagePath = "C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/duckie.png"
+        self.imagePath = "../images/Duckie.png"
         # Constants for screen dimensions
         self.char_x, self.char_y = SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2
         self.duck_img = pygame.image.load(self.imagePath)
