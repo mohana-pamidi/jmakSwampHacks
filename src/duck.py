@@ -12,7 +12,7 @@ class Duck:
         self.char_x, self.char_y = SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2
         self.duck_img = pygame.image.load(self.imagePath)
 
-        self.duck_img = pygame.transform.scale(self.duck_img, (CHAR_SIZE, CHAR_SIZE))
+        self.duck_img = pygame.transform.scale(self.duck_img, (CHAR_WIDTH, CHAR_HEIGHT))
 
     def move_duck(self, keys, x, y):
 
