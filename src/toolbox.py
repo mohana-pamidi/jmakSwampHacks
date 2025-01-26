@@ -15,6 +15,7 @@ class Toolbox:
         self.arrOfBugs = []
         self.keys = []
         self.input_active = False
+        self.words_array = WORDS[:]
         self.clock = pygame.time.Clock()
         
     
@@ -23,7 +24,9 @@ class Toolbox:
             pointX = random.uniform(BUG_RADIUS, SCREEN_WIDTH - BUG_RADIUS)
             pointY = random.uniform(BUG_RADIUS, SCREEN_HEIGHT - BUG_RADIUS)
             bug = Bug(((pointX, pointY)))
-            print(bug.word_duck_is_trying_to_guess)
+            bug.word_duck_is_trying_to_guess = bug.get_random_word(self.words_array)
+            # print(self.words_array)
+            # print(bug.word_duck_is_trying_to_guess)
             self.arrOfBugs.append(bug)
             
 

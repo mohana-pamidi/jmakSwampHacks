@@ -212,6 +212,8 @@ class Window:
 
 
     def on_render(self):
+        self.toolbox.words_array = WORDS[:]
+        #print(self.toolbox.words_array)
         self.toolbox.randomizeInitBugs()
         start_screen_image = pygame.image.load("images/Start screen.png")
         self._display_surf.blit(start_screen_image, start_screen_image.get_rect(topleft=(0, 0)))
