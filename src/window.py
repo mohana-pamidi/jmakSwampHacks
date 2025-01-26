@@ -56,7 +56,11 @@ class Window:
                 elif self.instruc_on_screen:
                     self.instruc_on_screen = False
 
-                    self.info_on_screen=False
+            if 470<=x<=670 and 0<=y<=90 and self.game_running:
+                self.game_running=False
+                self.start_screen=True
+                self.gameState.__set_state__(State.WELCOME)
+
         # Event: key is pressed
         # Currently checking: if game state is in prompting to collect user input
         if event.type == pygame.KEYDOWN:
@@ -132,6 +136,8 @@ class Window:
                                     BUG_POSITION)
             info_button = pygame.image.load("images/info_button.png")
             instruc_button = pygame.image.load("images/instruc_button.png")
+            restart_button= pygame.image.load("images/restart.png")
+            self._display_surf.blit(restart_button, restart_button.get_rect(center=(570,45)))
             self._display_surf.blit(info_button, info_button.get_rect(topright=(850, 0)))
             self._display_surf.blit(instruc_button, instruc_button.get_rect(topright=(750, 0)))
             if self.info_on_screen:
