@@ -26,9 +26,14 @@ class Window:
         self._running = True
  
     def on_event(self, event):
+        # get current state
+        state = self.gameState.__get_state__()
 
+        # Event: user exits window
         if event.type == pygame.QUIT:
             self._running = False
+        # Event: mouse is clicked
+        # Currently checking: if info button is clicked
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
             if 275 <= x <= 600 and 425 <= y <= 625 and self.start_screen:
@@ -39,22 +44,33 @@ class Window:
                     self.info_on_screen=True
                 elif self.info_on_screen:
                     self.info_on_screen=False
-
+        # Event: key is pressed
+        # Currently checking: if game state is in prompting to collect user input
         if event.type == pygame.KEYDOWN:
             
             if self.toolbox.input_active:
-
-                print("can type input_active is not false")
+                print("can type input_active is not false") # delete this later
+                # print("bug word: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess) # delete this later
+                # print("location of bug at index 0", self.toolbox.arrOfBugs[0].location) # delete this later
                 if event.key == pygame.K_RETURN:
                     # Send the prompt to Google Gemini/ make API call
                     response =  self.user_text
 
                     if response == "goodbye":
                         self.toolbox.input_active = False
-                        # get rid of bug
+                        self.gameState.__set_state__(State.PLAYING) # update game state
+                        # get rid of bug / pop first element from toolbox's bug array
+                        self.toolbox.arrOfBugs[0].location = (-1, -1)
+                        self.toolbox.arrOfBugs.pop(0)
+                        print("BUG POPPED") # delete this later
+                        # print("bug word: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess) # delete this later
+                        # check if the bug array is empty
+                        if not self.toolbox.arrOfBugs: # if empty, then set game state to win
+                            self.gameState. __set_state__(State.WIN)
+                            print("WIN!!!!!!!!!!!!!!")
+
 
                     self.user_text = ""  # Reset input
-
 
                 elif event.key == pygame.K_BACKSPACE:
                     self.user_text =  self.user_text [:-1]  # Remove last character
@@ -70,15 +86,15 @@ class Window:
             self.on_render()
            # self.gameState. __set_state__(State.PLAYING)
 
-        print("State: " , state)
+        # print("State: " , state) # CAN UNCOMMENT THIS LATER
         if state == State.PLAYING and self.game_running:
             # Welcome Screen Graphics
-            game_screen_image = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/game_background.png")
+            game_screen_image = pygame.image.load("../images/game_background.png")
             self._display_surf.blit(game_screen_image, game_screen_image.get_rect(topleft=(0, 0)))
-            info_button=pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/info_button.png")
+            info_button=pygame.image.load("../images/info_button.png")
             self._display_surf.blit(info_button, info_button.get_rect(topright=(850,0)))
             if self.info_on_screen:
-                info_tab = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/info_tab.png")
+                info_tab = pygame.image.load("../images/info_tab.png")
                 self._display_surf.blit(info_tab, info_tab.get_rect(topright=(750, 100)))
 
             # Duck Playing Graphics
@@ -89,7 +105,9 @@ class Window:
                     self.toolbox.keys, self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y)
 
             # Check to see if duck is near bug
-            if self.toolbox.myDuck.is_near_bug(self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y):
+            if self.toolbox.myDuck.is_near_bug(self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y,
+                                               self.toolbox.arrOfBugs[0].location[0],
+                                               self.toolbox.arrOfBugs[0].location[1]):
 
                 self.gameState.__set_state__(State.PROMPTING)
                 self.toolbox.input_active = True
@@ -98,10 +116,16 @@ class Window:
                                     (self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y))
             
             self._display_surf.blit(self.toolbox.arrOfBugs[0].bug_img,
-                                    BUG_POSITION)
+                                    self.toolbox.arrOfBugs[0].location)
             
         if state == State.PROMPTING and self.game_running:
             self.draw_text_box()
+            # display win screen make sure win screen has restart button
+            # once restart button is clicked, send user back to welcome
+
+
+        if state == State.WIN and self.game_running:
+            self.game_running = False
 
         self.toolbox.clock.tick(60)
 
@@ -110,9 +134,9 @@ class Window:
 
 
     def on_render(self):
-        start_screen_image = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/Start screen.png")
+        start_screen_image = pygame.image.load("../images/Start screen.png")
         self._display_surf.blit(start_screen_image, start_screen_image.get_rect(topleft=(0, 0)))
-        start_button = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/Start.png")
+        start_button = pygame.image.load("../images/Start.png")
         self._display_surf.blit(start_button, start_button.get_rect(center=(450, 525)))
         pygame.display.flip()
 
