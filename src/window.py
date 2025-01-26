@@ -66,7 +66,7 @@ class Window:
         if event.type == pygame.KEYDOWN:
             
             if self.toolbox.input_active:
-                print("can type input_active is not false") # delete this later
+                print("can type input_active is true") # delete this later
                 # print("bug word: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess) # delete this later
                 # print("location of bug at index 0", self.toolbox.arrOfBugs[0].location) # delete this later
                 if event.key == pygame.K_RETURN:
@@ -90,6 +90,7 @@ class Window:
 
         state = self.gameState.__get_state__()
 
+
         if state == State.WELCOME and self.start_screen:
             self.on_render()
            # self.gameState. __set_state__(State.PLAYING)
@@ -99,9 +100,7 @@ class Window:
             # Welcome Screen Graphics
             game_screen_image = pygame.image.load("images/game_background.png")
             self._display_surf.blit(game_screen_image, game_screen_image.get_rect(topleft=(0, 0)))
-
-
-
+            
             # Duck Playing Graphics
             self.toolbox.keys = pygame.key.get_pressed()
 
@@ -121,7 +120,8 @@ class Window:
                                     (self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y))
             
             self._display_surf.blit(self.toolbox.arrOfBugs[0].bug_img,
-                                    BUG_POSITION)
+                                    self.toolbox.arrOfBugs[0].location)
+            
             info_button = pygame.image.load("images/info_button.png")
             instruc_button = pygame.image.load("images/instruc_button.png")
             restart_button= pygame.image.load("images/restart.png")
@@ -134,6 +134,8 @@ class Window:
             if self.instruc_on_screen:
                 instruc_tab = pygame.image.load("images/instruc_tab.png")
                 self._display_surf.blit(instruc_tab, instruc_tab.get_rect(topleft=(75, 100)))
+
+
         if state == State.PROMPTING and self.game_running:
             # display win screen make sure win screen has restart button
             # once restart button is clicked, send user back to welcome
