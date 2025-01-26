@@ -56,10 +56,14 @@ class Window:
                 elif self.instruc_on_screen:
                     self.instruc_on_screen = False
 
-            if 470<=x<=670 and 0<=y<=90 and self.game_running:
-                self.game_running=False
-                self.start_screen=True
+            if 470 <= x <= 670 and 0 <= y <= 90 and (self.game_running or state == State.WIN):
+                if self.game_running:
+                    self.game_running = False
+                self.start_screen = True
                 self.gameState.__set_state__(State.WELCOME)
+
+            if 670 <= x <= 870 and 0 <= y <= 100 and state == State.WIN: #center=(770, 45)
+                self._running = False
 
         # Event: key is pressed
         # Currently checking: if game state is in prompting to collect user input
@@ -150,10 +154,12 @@ class Window:
 
 
         if state == State.WIN and self.game_running:
-            
-            game_screen_image = pygame.image.load("images/win_screen.png")
-            self._display_surf.blit(game_screen_image, game_screen_image.get_rect(topleft=(0, 0)))
-            self.game_running = False
+            end_screen_image = pygame.image.load("images/win_screen.png")
+            self._display_surf.blit(end_screen_image, end_screen_image.get_rect(topleft=(0, 0)))
+            restart_button = pygame.image.load("images/restart.png")
+            self._display_surf.blit(restart_button, restart_button.get_rect(center=(570, 45)))
+            exit_button = pygame.image.load("images/exit.png")
+            self._display_surf.blit(exit_button, exit_button.get_rect(center=(770, 45)))
 
         if state == State.GETTING_FEEDBACK and self.game_running:
             #print(self.toolbox.myAPI.getFeedback())
@@ -225,11 +231,3 @@ class Window:
 
         self.on_cleanup()
 
-    def exit_render(self):
-        end_screen_image = pygame.image.load("images/win_screen.png")
-        self._display_surf.blit(end_screen_image, end_screen_image.get_rect(topleft=(0, 0)))
-        restart_button = pygame.image.load("images/restart.png")
-        self._display_surf.blit(restart_button, restart_button.get_rect(topleft=(100,200)))
-
-        exit_button = pygame.image.load("images/exit_button.png")
-        self._display_surf.blit(exit_button, exit_button.get_rect(topleft=(400,200)))
