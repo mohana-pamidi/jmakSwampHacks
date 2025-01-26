@@ -21,8 +21,8 @@ class Toolbox:
     
     def randomizeInitBugs(self):
         for i in range(NUM_OF_BUGS):
-            pointX = random.uniform(0, SCREEN_WIDTH)
-            pointY = random.uniform(0, SCREEN_HEIGHT)
+            pointX = random.uniform(BUG_RADIUS, SCREEN_WIDTH - BUG_RADIUS)
+            pointY = random.uniform(BUG_RADIUS, SCREEN_HEIGHT - BUG_RADIUS)
             bug = Bug(((pointX, pointY)))
             print(bug.word_duck_is_trying_to_guess)
             self.arrOfBugs.append(bug)
