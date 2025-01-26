@@ -2,7 +2,7 @@ import pygame, sys
 from pygame.locals import *
 from toolbox import *
 from gameState import *
-
+import textwrap
 
 
 class Window:
@@ -20,6 +20,7 @@ class Window:
         self.user_text = ""
         self.info_on_screen=True
         self.instruc_on_screen=True
+        self.levelUp = False
  
     def on_init(self):
         self._display_surf = pygame.display.set_mode(self.size)
@@ -60,20 +61,38 @@ class Window:
                 self.game_running=False
                 self.start_screen=True
                 self.gameState.__set_state__(State.WELCOME)
+            
+            if(self.gameState.__get_state__() == State.GETTING_FEEDBACK):
+
+                if(self.levelUp):
+                    self.gameState.__set_state__(State.PLAYING)
+                    # get rid of bug / pop first element from toolbox's bug array
+                    self.toolbox.arrOfBugs[0].location = (-1, -1)
+                    self.toolbox.arrOfBugs.pop(0)
+                    print("BUG POPPED") # delete this later
+
+                    if not self.toolbox.arrOfBugs: # if empty, then set game state to win
+                        self.gameState. __set_state__(State.WIN)
+                        print("WIN!!!!!!!!!!!!!!")
+
+                    self.levelUp = False
+                else:
+                    self.gameState.__set_state__(State.PROMPTING)
+
 
         # Event: key is pressed
         # Currently checking: if game state is in prompting to collect user input
         if event.type == pygame.KEYDOWN:
             
             if self.toolbox.input_active:
-                print("can type input_active is true") # delete this later
-                # print("bug word: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess) # delete this later
-                # print("location of bug at index 0", self.toolbox.arrOfBugs[0].location) # delete this later
                 if event.key == pygame.K_RETURN:
                     # Send the prompt to Google Gemini/ make API call
                     response =  self.user_text
                     
-                    self.toolbox.myAPI.makeAPICall(("What is your rating ( on a scale of 1-10 ) for this prompt if I was trying to get you to say: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess, ". The prompt is: ", response, ". Format response with 'rating /10 : explanation'"))
+                    if self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess in response.lower() :
+                        self.toolbox.myAPI.makeAPICall(("The user just used a restricted word. Please ask them to try again, give them a rating of 0. Format response with 'rating /10 : explanation'"))
+                    else:
+                        self.toolbox.myAPI.makeAPICall(("What is your rating ( on a scale of 1-10 ) for this prompt if I was trying to get you to say: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess, ". The prompt is: ", response, ". Format response with 'rating /10 : explanation'"))
                    
                     self.gameState.__set_state__(State.GETTING_FEEDBACK)
 
@@ -141,13 +160,12 @@ class Window:
             # display win screen make sure win screen has restart button
             # once restart button is clicked, send user back to welcome
 
-            #self.draw_text_box(self.user_text)
+            self.draw_text_box()
             # display text box of bug word (the word that the user needs Gemini to guess)
             word = self.toolbox.arrOfBugs[0].returnText()
             self._display_surf.blit(word, (self.toolbox.arrOfBugs[0].location[0], self.toolbox.arrOfBugs[0].location[1] - BUG_RADIUS/2))
 
-            self.draw_text_box(self.user_text)
-
+            self.renderText(self.user_text)
 
         if state == State.WIN and self.game_running:
             
@@ -157,28 +175,27 @@ class Window:
 
         if state == State.GETTING_FEEDBACK and self.game_running:
             #print(self.toolbox.myAPI.getFeedback())
-            rating = (int) (self.toolbox.myAPI.getRating((self.toolbox.myAPI.getFeedback())))
-            
+            self.draw_text_box()
 
-            if rating > THRESHOLD:
-                self.toolbox.input_active = False
-                self.draw_text_box((self.toolbox.myAPI.getFeedback()))
-                self.gameState.__set_state__(State.PLAYING) # update game state
-                # get rid of bug / pop first element from toolbox's bug array
-                self.toolbox.arrOfBugs[0].location = (-1, -1)
-                self.toolbox.arrOfBugs.pop(0)
-                print("BUG POPPED") # delete this later
-                # print("bug word: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess) # delete this later
-                # check if the bug array is empty
-                if not self.toolbox.arrOfBugs: # if empty, then set game state to win
-                    self.gameState. __set_state__(State.WIN)
-                    print("WIN!!!!!!!!!!!!!!")
-            else:
-                self.draw_text_box((self.toolbox.myAPI.getFeedback() + ". Try again!"))
+            if(("incorrect" in self.toolbox.myAPI.getFeedback().lower()) or ("try again" in self.toolbox.myAPI.getFeedback().lower())):
+           
+                self.renderText((self.toolbox.myAPI.getFeedback()))
 
+                #print((self.toolbox.myAPI.getFeedback() + ". Don't use the word!"))
                 #must have some way of keeping feedback on screen before prmopting again
-                self.gameState.__set_state__(State.PROMPTING)
-                
+            else:
+                rating = (int) (self.toolbox.myAPI.getRating((self.toolbox.myAPI.getFeedback())))
+            
+                print("rating: ", rating)
+                if rating > THRESHOLD:
+                    self.renderText((self.toolbox.myAPI.getFeedback()))
+                    self.toolbox.input_active = False
+                    self.levelUp = True
+                    # print("bug word: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess) # delete this later
+                    # check if the bug array is empty
+                    
+                else:
+                    self.renderText((self.toolbox.myAPI.getFeedback() + ". Try again!"))
 
 
         self.toolbox.clock.tick(60)
@@ -188,6 +205,7 @@ class Window:
 
 
     def on_render(self):
+        self.toolbox.randomizeInitBugs()
         start_screen_image = pygame.image.load("images/Start screen.png")
         self._display_surf.blit(start_screen_image, start_screen_image.get_rect(topleft=(0, 0)))
         start_button = pygame.image.load("images/Start.png")
@@ -197,7 +215,7 @@ class Window:
         self._display_surf.blit(exit_button, exit_button.get_rect(center=(450,500)))
         pygame.display.flip()
         self.gameState. __set_state__(State.PLAYING)
-
+        
         '''
         self._display_surf.fill((125, 199, 242))
         header_image=pygame.image.load("../images/Duckies_Ai_Adventure.png")
@@ -207,11 +225,30 @@ class Window:
     def on_cleanup(self):
         pygame.quit()
 
-    def draw_text_box(self, text):
-        pygame.draw.rect(self._display_surf, (255, 255, 255), (200, 500, 500, 50))
-        pygame.draw.rect(self._display_surf, (0, 0, 0), (200, 500, 500, 50), 2)
-        text_surface = self.font.render( text, True, (0, 0, 0))
-        self._display_surf.blit(text_surface, (210, 510))
+    def draw_text_box(self):
+        # Draw the text box (background)
+        text_box = pygame.image.load("images/text_box.png")
+        
+        self._display_surf.blit(text_box, text_box.get_rect(center=(450, 525)))
+
+        # pygame.display.flip()  # Update the display
+        # pygame.draw.rect(self._display_surf, (255, 255, 255), (200, 500, 500, 50))
+        # pygame.draw.rect(self._display_surf, (0, 0, 0), (200, 500, 500, 50), 2)
+        # text_surface = self.font.render( text, True, (0, 0, 0))
+        # self._display_surf.blit(text_surface, (210, 510))
+
+    def renderText(self, input):
+
+        lines = textwrap.wrap(input, width = 500 // self.font.size(" ")[0])
+        y_offset = 0
+
+        for line in lines:
+            self.text_surface = self.font.render(line, True, (0,0,0))
+            self._display_surf.blit(self.text_surface, (200, 500 + y_offset))
+            y_offset += self.font.size(" ")[1] + 4
+
+            if y_offset > 50:
+                break
 
     def on_execute(self):
         if self.on_init() == False:

@@ -23,7 +23,5 @@ class API:
         if index != -1:
             rating = feedback[:index]
 
-            return rating
-        else:
-            print("not in word")
+        return rating
             

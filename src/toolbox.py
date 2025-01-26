@@ -16,7 +16,6 @@ class Toolbox:
         self.keys = []
         self.input_active = False
         self.clock = pygame.time.Clock()
-        self.randomizeInitBugs()
         
     
     def randomizeInitBugs(self):

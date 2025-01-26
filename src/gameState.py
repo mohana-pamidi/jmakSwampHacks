@@ -18,7 +18,6 @@ class GameState:
         # Attributes
         self.toolbox = toolbox
         self.num_bugs_left = NUM_OF_BUGS       # the score of the game
-        self.curr_bug_duck_on = self.toolbox.arrOfBugs[0]
         self.welcome_frame = ""
         self.state = State.WELCOME
 
@@ -38,11 +37,5 @@ class GameState:
     # set_num_bugs updates the current number of bugs
     def set_num_bugs(self, num_bugs):
         self.num_bugs_left = num_bugs
-    
-    def get_curr_bug_duck_on(self):
-        return self.curr_bug_duck_on
-    
-    def set_curr_bug_duck_on(self, bug):
-        self.curr_bug_duck_on = bug
-
+  
 
