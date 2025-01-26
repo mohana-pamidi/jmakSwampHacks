@@ -8,8 +8,9 @@ from constants import *
 class State(Enum):
     WELCOME = 1
     PROMPTING = 2
-    PLAYING = 3
-    WIN = 4
+    GETTING_FEEDBACK = 3
+    PLAYING = 4
+    WIN = 5
 
 class GameState:
     # Constructor

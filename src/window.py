@@ -36,9 +36,11 @@ class Window:
         # Currently checking: if info button is clicked
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
-            if 275 <= x <= 600 and 425 <= y <= 625 and self.start_screen:
+            if 275 <= x <= 600 and 350 <= y <= 449 and self.start_screen:
                 self.start_screen = False
                 self.game_running = True
+            if 275<=x<=600 and 451<=y<= 550 and self.start_screen:
+                self._running=False
             if 750<=x<=850 and 0<=y<=100 and self.game_running:
                 if self.info_on_screen==False:
                     self.info_on_screen=True
@@ -70,6 +72,8 @@ class Window:
                             print("WIN!!!!!!!!!!!!!!")
 
 
+                    self.toolbox.myAPI.makeAPICall(("What is your rating ( on a scale of 1-10 ) for this prompt if I was trying to get you to say: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess, ". The prompt is: ", response, ". Format response with 'rating /10 : explanation'"))
+                    self.gameState.__set_state__(State.GETTING_FEEDBACK)
                     self.user_text = ""  # Reset input
 
                 elif event.key == pygame.K_BACKSPACE:
@@ -89,12 +93,12 @@ class Window:
         # print("State: " , state) # CAN UNCOMMENT THIS LATER
         if state == State.PLAYING and self.game_running:
             # Welcome Screen Graphics
-            game_screen_image = pygame.image.load("../images/game_background.png")
+            game_screen_image = pygame.image.load("images/game_background.png")
             self._display_surf.blit(game_screen_image, game_screen_image.get_rect(topleft=(0, 0)))
-            info_button=pygame.image.load("../images/info_button.png")
+            info_button=pygame.image.load("images/info_button.png")
             self._display_surf.blit(info_button, info_button.get_rect(topright=(850,0)))
             if self.info_on_screen:
-                info_tab = pygame.image.load("../images/info_tab.png")
+                info_tab = pygame.image.load("images/info_tab.png")
                 self._display_surf.blit(info_tab, info_tab.get_rect(topright=(750, 100)))
 
             # Duck Playing Graphics
@@ -119,13 +123,16 @@ class Window:
                                     self.toolbox.arrOfBugs[0].location)
             
         if state == State.PROMPTING and self.game_running:
-            self.draw_text_box()
             # display win screen make sure win screen has restart button
             # once restart button is clicked, send user back to welcome
-
+            self.draw_text_box(self.user_text)
 
         if state == State.WIN and self.game_running:
             self.game_running = False
+
+        if state == State.GETTING_FEEDBACK and self.game_running:
+            #print(self.toolbox.myAPI.getFeedback())
+            self.draw_text_box(self.toolbox.myAPI.getRating((self.toolbox.myAPI.getFeedback())))
 
         self.toolbox.clock.tick(60)
 
@@ -134,12 +141,14 @@ class Window:
 
 
     def on_render(self):
-        start_screen_image = pygame.image.load("../images/Start screen.png")
+        start_screen_image = pygame.image.load("images/Start screen.png")
         self._display_surf.blit(start_screen_image, start_screen_image.get_rect(topleft=(0, 0)))
-        start_button = pygame.image.load("../images/Start.png")
-        self._display_surf.blit(start_button, start_button.get_rect(center=(450, 525)))
-        pygame.display.flip()
+        start_button = pygame.image.load("images/Start.png")
+        self._display_surf.blit(start_button, start_button.get_rect(center=(450, 400)))
 
+        exit_button = pygame.image.load("images/exit.png")
+        self._display_surf.blit(exit_button, exit_button.get_rect(center=(450,500)))
+        pygame.display.flip()
         self.gameState. __set_state__(State.PLAYING)
 
         '''
@@ -151,10 +160,10 @@ class Window:
     def on_cleanup(self):
         pygame.quit()
 
-    def draw_text_box(self):
+    def draw_text_box(self, text):
         pygame.draw.rect(self._display_surf, (255, 255, 255), (200, 500, 500, 50))
         pygame.draw.rect(self._display_surf, (0, 0, 0), (200, 500, 500, 50), 2)
-        text_surface = self.font.render( self.user_text, True, (0, 0, 0))
+        text_surface = self.font.render( text, True, (0, 0, 0))
         self._display_surf.blit(text_surface, (210, 510))
 
     def on_execute(self):
@@ -168,3 +177,11 @@ class Window:
             self.on_loop()
 
         self.on_cleanup()
+
+    def exit_render(self):
+        end_screen_image = pygame.image.load("../images/win_screen.png")
+        self._display_surf.blit(end_screen_image, end_screen_image.get_rect(topleft=(0, 0)))
+        restart_button = pygame.image.load("../images/restart.png")
+        self._display_surf.blit(restart_button, restart_button.get_rect(topleft=(100,200)))
+        exit_button = pygame.image.load("../images/exit_button.png")
+        self._display_surf.blit(exit_button, exit_button.get_rect(topleft=(400,200)))
