@@ -74,12 +74,12 @@ class Window:
 
         if state == State.PLAYING and self.game_running:
             # Welcome Screen Graphics
-            game_screen_image = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/game_background.png")
+            game_screen_image = pygame.image.load("../images/game_background.png")
             self._display_surf.blit(game_screen_image, game_screen_image.get_rect(topleft=(0, 0)))
-            info_button=pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/info_button.png")
+            info_button=pygame.image.load("../images/info_button.png")
             self._display_surf.blit(info_button, info_button.get_rect(topright=(850,0)))
             if self.info_on_screen:
-                info_tab = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/info_tab.png")
+                info_tab = pygame.image.load("../images/info_tab.png")
                 self._display_surf.blit(info_tab, info_tab.get_rect(topright=(750, 100)))
 
             # Duck Playing Graphics
@@ -102,9 +102,9 @@ class Window:
             pygame.display.flip()
 
     def on_render(self):
-        start_screen_image = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/Start screen.png")
+        start_screen_image = pygame.image.load("../images/Start screen.png")
         self._display_surf.blit(start_screen_image, start_screen_image.get_rect(topleft=(0, 0)))
-        start_button = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/Start.png")
+        start_button = pygame.image.load("../images/Start.png")
         self._display_surf.blit(start_button, start_button.get_rect(center=(450, 525)))
         pygame.display.flip()
 
@@ -137,3 +137,11 @@ class Window:
             self.on_loop()
 
         self.on_cleanup()
+
+    def exit_render(self):
+        end_screen_image = pygame.image.load("../images/win_screen.png.")
+        self._display_surf.blit(end_screen_image, end_screen_image.get_rect(topleft=(0, 0)))
+        restart_button = pygame.image.load("../images/restart.png")
+        self._display_surf.blit(restart_button, restart_button.get_rect(topleft=(100,200)))
+        exit_button = pygame.image.load("../images/exit_button.png")
+        self._display_surf.blit(exit_button, exit_button.get_rect(topleft=(400,200)))
