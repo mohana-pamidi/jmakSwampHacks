@@ -251,7 +251,7 @@ class Window:
 
         for line in lines:
             self.text_surface = self.font.render(line, True, (0,0,0))
-            self._display_surf.blit(self.text_surface, (200, 500 + y_offset))
+            self._display_surf.blit(self.text_surface, (200, 485 + y_offset))
             y_offset += self.font.size(" ")[1] + 4
 
             if y_offset > 50:
