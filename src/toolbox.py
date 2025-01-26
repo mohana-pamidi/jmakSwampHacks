@@ -1,6 +1,6 @@
 
 from window import *
-# from API import *
+from API import *
 from bug import *
 from duck import *
 import numpy as np
@@ -11,7 +11,7 @@ from constants import *
 class Toolbox:
     def __init__(self):
         self.myDuck = Duck()
-        # self.myAPI = API()
+        self.myAPI = API()
         self.arrOfBugs = []
         self.keys = []
         self.input_active = False
