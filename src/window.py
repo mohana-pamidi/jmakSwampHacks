@@ -150,9 +150,11 @@ class Window:
             info_button = pygame.image.load("images/info_button.png")
             instruc_button = pygame.image.load("images/instruc_button.png")
             restart_button= pygame.image.load("images/restart.png")
+            gemini_logo = pygame.image.load("images/gemini_logo.png")
             self._display_surf.blit(restart_button, restart_button.get_rect(center=(570,45)))
             self._display_surf.blit(info_button, info_button.get_rect(topright=(850, 0)))
             self._display_surf.blit(instruc_button, instruc_button.get_rect(topright=(750, 0)))
+            self._display_surf.blit(gemini_logo, gemini_logo.get_rect(bottomleft=(5, 695)))
             if self.info_on_screen:
                 info_tab = pygame.image.load("images/info_tab.png")
                 self._display_surf.blit(info_tab, info_tab.get_rect(topright=(875, 100)))
@@ -253,7 +255,7 @@ class Window:
 
         for line in lines:
             self.text_surface = self.font.render(line, True, (0,0,0))
-            self._display_surf.blit(self.text_surface, (200, 500 + y_offset))
+            self._display_surf.blit(self.text_surface, (200, 485 + y_offset))
             y_offset += self.font.size(" ")[1] + 4
 
             if y_offset > 50:
