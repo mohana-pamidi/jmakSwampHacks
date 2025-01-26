@@ -148,3 +148,11 @@ class Window:
             self.on_loop()
 
         self.on_cleanup()
+
+    def exit_render(self):
+        end_screen_image = pygame.image.load("../images/win_screen.png.")
+        self._display_surf.blit(end_screen_image, end_screen_image.get_rect(topleft=(0, 0)))
+        restart_button = pygame.image.load("../images/restart.png")
+        self._display_surf.blit(restart_button, restart_button.get_rect(topleft=(100,200)))
+        exit_button = pygame.image.load("../images/exit_button.png")
+        self._display_surf.blit(exit_button, exit_button.get_rect(topleft=(400,200)))
