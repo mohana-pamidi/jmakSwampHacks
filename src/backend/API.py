@@ -11,16 +11,18 @@ class API:
         #we must send append prom
         self.response = self.model.generate_content(prompt)
 
-    def getFeedBack(self):
+    def getFeedback(self):
         return self.response.text
     
     #returns integers between 0 and 10. 
     def getRating(self, feedback):
-        index = self.response.text.find("/10")
+        index = feedback.find("/10")
+        print("index: ", index)
+
         if index != -1:
-            words = feedback.split()
-        for word in words:
-            if "/10" in word:
-                rating = word.split("/")[0]
-                return int(rating)
-        return None    
+            rating = feedback[:index]
+
+            return rating
+        else:
+            print("not in word")
+            

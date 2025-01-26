@@ -53,6 +53,8 @@ class Window:
                         self.toolbox.input_active = False
                         # get rid of bug
 
+                    self.toolbox.myAPI.makeAPICall(("What is your rating ( on a scale of 1-10 ) for this prompt if I was trying to get you to say: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess, ". The prompt is: ", response, ". Format response with 'rating /10 : explanation'"))
+                    self.gameState.__set_state__(State.GETTING_FEEDBACK)
                     self.user_text = ""  # Reset input
 
 
@@ -101,7 +103,13 @@ class Window:
                                     BUG_POSITION)
             
         if state == State.PROMPTING and self.game_running:
-            self.draw_text_box()
+            self.draw_text_box(self.user_text)
+
+        if state == State.GETTING_FEEDBACK and self.game_running:
+            #print(self.toolbox.myAPI.getFeedback())
+            self.draw_text_box(self.toolbox.myAPI.getRating((self.toolbox.myAPI.getFeedback())))
+
+
 
         self.toolbox.clock.tick(60)
 
@@ -114,6 +122,7 @@ class Window:
         self._display_surf.blit(start_screen_image, start_screen_image.get_rect(topleft=(0, 0)))
         start_button = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/Start.png")
         self._display_surf.blit(start_button, start_button.get_rect(center=(450, 525)))
+        
         pygame.display.flip()
 
         self.gameState. __set_state__(State.PLAYING)
@@ -127,10 +136,10 @@ class Window:
     def on_cleanup(self):
         pygame.quit()
 
-    def draw_text_box(self):
+    def draw_text_box(self, text):
         pygame.draw.rect(self._display_surf, (255, 255, 255), (200, 500, 500, 50))
         pygame.draw.rect(self._display_surf, (0, 0, 0), (200, 500, 500, 50), 2)
-        text_surface = self.font.render( self.user_text, True, (0, 0, 0))
+        text_surface = self.font.render( text, True, (0, 0, 0))
         self._display_surf.blit(text_surface, (210, 510))
 
     def on_execute(self):
