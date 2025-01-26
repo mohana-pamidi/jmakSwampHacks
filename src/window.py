@@ -116,16 +116,22 @@ class Window:
                 self.gameState.__set_state__(State.PROMPTING)
                 self.toolbox.input_active = True
 
+            # display duckie
             self._display_surf.blit(self.toolbox.myDuck.duck_img,
                                     (self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y))
-            
+            # display bug
             self._display_surf.blit(self.toolbox.arrOfBugs[0].bug_img,
                                     self.toolbox.arrOfBugs[0].location)
             
         if state == State.PROMPTING and self.game_running:
             # display win screen make sure win screen has restart button
             # once restart button is clicked, send user back to welcome
+            #self.draw_text_box(self.user_text)
+            # display text box of bug word (the word that the user needs Gemini to guess)
+            word = self.toolbox.arrOfBugs[0].returnText()
+            self._display_surf.blit(word, (self.toolbox.arrOfBugs[0].location[0], self.toolbox.arrOfBugs[0].location[1] - BUG_RADIUS/2))
             self.draw_text_box(self.user_text)
+
 
         if state == State.WIN and self.game_running:
             self.game_running = False
