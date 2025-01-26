@@ -1,3 +1,4 @@
 # swamphacks2025
-GOATED TEAM FR <br>
-research about prompting ChatGPT properly: https://link.springer.com/article/10.1007/s44217-024-00122-w 
+make sure to have pygame and google.generative ai installed on your machine
+
+the game's main point of entry is through main.py
