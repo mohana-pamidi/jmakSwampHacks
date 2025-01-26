@@ -90,16 +90,24 @@ class Window:
 
             # Check to see if duck is near bug
             if self.toolbox.myDuck.is_near_bug(self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y):
-                
+
                 self.gameState.__set_state__(State.PROMPTING)
                 self.toolbox.input_active = True
 
             self._display_surf.blit(self.toolbox.myDuck.duck_img,
                                     (self.toolbox.myDuck.char_x, self.toolbox.myDuck.char_y))
+            
+            self._display_surf.blit(self.toolbox.arrOfBugs[0].bug_img,
+                                    BUG_POSITION)
+            
+        if state == State.PROMPTING and self.game_running:
+            self.draw_text_box()
 
-            self.toolbox.clock.tick(60)
+        self.toolbox.clock.tick(60)
 
-            pygame.display.flip()
+        pygame.display.flip()
+
+
 
     def on_render(self):
         start_screen_image = pygame.image.load("C:/Users/SRIDH/Projects/jmakSwampHacks/src/images/Start screen.png")
@@ -120,7 +128,6 @@ class Window:
         pygame.quit()
 
     def draw_text_box(self):
-
         pygame.draw.rect(self._display_surf, (255, 255, 255), (200, 500, 500, 50))
         pygame.draw.rect(self._display_surf, (0, 0, 0), (200, 500, 500, 50), 2)
         text_surface = self.font.render( self.user_text, True, (0, 0, 0))
