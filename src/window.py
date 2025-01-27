@@ -100,10 +100,10 @@ class Window:
                     response =  self.user_text
                     
                     if self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess in response.lower() :
-                        self.toolbox.myAPI.makeAPICall(("The user just used a restricted word. Please ask them to try again, give them a rating of 0. Format response with 'rating /10 : explanation'"))
+                        self.toolbox.myAPI.makeAPICall(("The user just used a restricted word. Give them a rating of 0. Format response with 'yourRating/10 : yourexplanation'"))
                         self.restrictedWord = True
                     else:
-                        self.toolbox.myAPI.makeAPICall(("What is your rating ( on a scale of 1-10 ) for this prompt if I was trying to get you to say: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess, ". The prompt is: ", response, ". Format response with 'rating /10 : explanation'"))
+                        self.toolbox.myAPI.makeAPICall(("What is your rating ( on a scale of 1-10 ) for this prompt if I was trying to get you to say: ", self.toolbox.arrOfBugs[0].word_duck_is_trying_to_guess, ". The prompt is: ", response, ". Format response with 'yourRating/10 : yourexplanation'"))
                         self.restrictedWord = False
                    
                     self.gameState.__set_state__(State.GETTING_FEEDBACK)

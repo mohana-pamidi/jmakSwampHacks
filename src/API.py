@@ -18,10 +18,14 @@ class API:
     #returns integers between 0 and 10. 
     def getRating(self, feedback):
         index = feedback.find("/10")
+        
         print("index: ", index)
+
 
         if index != -1:
             rating = feedback[:index]
+        else:
+            rating = -1
 
         return rating
             
